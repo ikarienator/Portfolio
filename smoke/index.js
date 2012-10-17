@@ -315,7 +315,7 @@ function webGLStart () {
       function updateParticles () {
         var now = +new Date(),
             dt = now - lastDate,
-            phase = (now - startTime) / 3000 * Math.PI,
+            phase = (now - startTime) / 4000 * Math.PI,
             center = [0.5 + Math.sin(phase) * 0.4, 0.5 + Math.sin(phase * 2.32) * 0.4, 0.3 + Math.sin(phase * 1.2523) * 0.25];
         lastDate = now;
 

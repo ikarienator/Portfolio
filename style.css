@@ -9,6 +9,7 @@
 html {
     background: #000;
 }
+
 body {
     text-align: center;
     background: no-repeat -webkit-linear-gradient(top, #666 0%, #000 100%);
@@ -87,9 +88,9 @@ iframe {
 
 #menu > .item {
     cursor: pointer;
-    margin-right: 2px;
+    margin-right: 6px;
     background: #CCC;
-    border: 1px solid #333;
+    border: 1px solid #cc3;
     float: left;
     width: 32px;
     height: 32px;
