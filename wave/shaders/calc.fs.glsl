@@ -25,19 +25,19 @@ float height(vec2 position, vec2 offset) {
   if (position.x < 0. || position.y < 0. || position.x > 1. || position.y > 1.) {
     return 0.;
   }
-  return decode(texture2D(sampler1, position));
+  return clamp(decode(texture2D(sampler1, position)), -2., 2.);
 }
 
 float vol(vec2 position) {
   if (position.x < 0. || position.y < 0. || position.x > 1. || position.y > 1.) {
     return 0.;
   }
-  return decode(texture2D(sampler2, position));
+  return clamp(decode(texture2D(sampler2, position)), -2., 2.);
 }
 
 void main(void) {
 
-  float viscous = 0.0;
+  float viscous = 0.1;
   float k = 2.;
   float regression = 0.0;
   float fade = 0.97;

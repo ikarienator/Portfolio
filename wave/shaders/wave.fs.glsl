@@ -33,7 +33,7 @@ vec4 sample(vec3 direction) {
   vec3 hit = plainRT(direction, from, plainU, plainV, plainC);
   if (abs(hit.x) <= 1.0 && abs(hit.y) <= 1.0 && hit.z >= 0.0) {
     vec2 samp = vec2((hit.x + 1.0) * 0.5, (hit.y + 1.0) * 0.5); 
-    return texture2D(sampler6, vec2(samp.x, samp.y * 2.));
+    return texture2D(sampler6, vec2(samp.x * 4., samp.y * 8.));
   }
   return envSampling(direction, vPosition.xyz, sampler2, sampler3, sampler4, sampler5, sampler6);
 }
