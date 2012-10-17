@@ -1,12 +1,12 @@
 PhiloGL.unpack();
 window.addEventListener('DOMContentLoaded', webGLStart, false);
 var width, height;
-function resize() {
+function resize () {
   var canvas = document.getElementById('wave'),
       style = window.getComputedStyle(canvas);
-  height = parseFloat(style.getPropertyValue('height'));
+  height = parseFloat(style.getPropertyValue('height')) * devicePixelRatio;
   canvas.height = height;
-  width = parseFloat(style.getPropertyValue('width'));
+  width = parseFloat(style.getPropertyValue('width')) * devicePixelRatio;
   canvas.width = width;
 }
 
@@ -15,7 +15,7 @@ window.addEventListener('resize', resize);
 /**
  * starting point
  */
-function webGLStart() {
+function webGLStart () {
   resize();
   var
       cameraControl,
@@ -136,7 +136,8 @@ function webGLStart() {
 
     events: {
       cachePosition: false,
-      onClick: function(e) {
+      centerOrigin: false,
+      onClick: function (e) {
         if (!this.calculatePosition) {
           return;
         }
@@ -150,7 +151,7 @@ function webGLStart() {
         e.event.stopPropagation();
       },
 
-      onMouseMove: function(e) {
+      onMouseMove: function (e) {
         if (!this.calculatePosition) {
           return;
         }
@@ -164,23 +165,23 @@ function webGLStart() {
         e.event.stopPropagation();
       },
 
-      onMouseWheel: function(e) {
+      onMouseWheel: function (e) {
         cameraControl.onMouseWheel(e);
       },
 
-      onDragStart: function(e) {
+      onDragStart: function (e) {
         cameraControl.onDragStart(e);
       },
-      onDragMove: function(e) {
+      onDragMove: function (e) {
         cameraControl.onDragMove(e);
       }
     },
 
-    onError: function(e) {
+    onError: function (e) {
       console.log(e);
     },
 
-    onLoad: function(app) {
+    onLoad: function (app) {
       Utils("wait").style.display = 'none';
       PhiloGL.unpack();
       window.app = app;
@@ -189,17 +190,17 @@ function webGLStart() {
       cameraControl = new CameraControl(app.camera);
 
       var speedControl = document.getElementById('speed');
-      speedControl.addEventListener('change', function() {
+      speedControl.addEventListener('change', function () {
         dt = +speedControl.value;
       }, false);
 
       var dropsControl = document.getElementById('drops');
-      dropsControl.addEventListener('change', function() {
+      dropsControl.addEventListener('change', function () {
         drops = +dropsControl.value;
       }, false);
 
       var iorControl = document.getElementById('ior');
-      iorControl.addEventListener('change', function() {
+      iorControl.addEventListener('change', function () {
         IOR = Math.pow(1.3330, +iorControl.value);
         waterSurface.uniforms.n2 = IOR;
       }, false);
@@ -238,7 +239,7 @@ function webGLStart() {
       });
 
       // Utility functions
-      app.initScene = function() {
+      app.initScene = function () {
         //Create scene
         shore = new O3D.Plane({
           type: 'x,y',
@@ -302,7 +303,7 @@ function webGLStart() {
         camera.update();
       };
 
-      app.update = function() {
+      app.update = function () {
         for (var i = 0; i < N; i++) {
           surfaceBuffer.process({
             program: 'calc',
@@ -325,7 +326,7 @@ function webGLStart() {
         }
       };
 
-      app.animate = function() {
+      app.animate = function () {
         app.update();
 
         var time = (+new Date() - start) / 1000;
@@ -334,22 +335,8 @@ function webGLStart() {
         gl.clearDepth(1);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         waterSurface.textures = [surfaceBuffer.from[0] + '-texture', 'SKY0', 'SKY1', 'SKY2', 'SKY3', 'rocks'];
-        app.setFrameBuffer('render', true);
-        gl.viewport(0, 0, width, height * 2);
-        this.scene.renderToTexture('render');
-        app.setFrameBuffer('render', false);
         gl.viewport(0, 0, width, height);
-        PhiloGL.Media.Image.postProcess({
-          width: width,
-          height: height,
-          fromTexture: 'render-texture',
-          toScreen: true,
-          program: 'sample',
-          uniforms: {
-            width: width,
-            height: height * 2
-          }
-        });
+        this.scene.render('render');
         if (lastDrop < time - 300) {
           lastDrop = time - 300;
         }
@@ -359,10 +346,10 @@ function webGLStart() {
             lastDrop += 1 / drops / dt;
           }
         }
-        setTimeout(function() {return app.animate.apply(app, arguments);}, 15);
+        setTimeout(function () {return app.animate.apply(app, arguments);}, 15);
       };
 
-      app.drop = function(position, elevation) {
+      app.drop = function (position, elevation) {
         surfaceBuffer.process({
           width: RESOLUTIONX,
           height: RESOLUTIONY,
@@ -376,10 +363,10 @@ function webGLStart() {
         }, 0);
       };
 
-      app.calculatePosition = function(e) {
+      app.calculatePosition = function (e) {
         var camera = this.camera,
-            x = e.x / width,
-            y = e.y / height,
+            x = e.x / width * devicePixelRatio - 0.5,
+            y = 0.5 - e.y / height * devicePixelRatio,
             proj = camera.projection,
             view = camera.view,
             projView = proj.mulMat4(view),
@@ -394,7 +381,7 @@ function webGLStart() {
 
       gl.enable(gl.DEPTH_TEST);
       gl.depthFunc(gl.LEQUAL);
-      setTimeout(function() {return app.animate.apply(app, arguments);}, 15);
+      setTimeout(function () {return app.animate.apply(app, arguments);}, 15);
     }
   });
 }
