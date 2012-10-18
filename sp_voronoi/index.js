@@ -67,7 +67,7 @@ function webGLStart() {
             fs: 'sph-shader.fs.glsl'
         },
         onError: function(e) {
-            alert(e);
+          console.log(e);
         },
         events: {
             cachePosition: false,

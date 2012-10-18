@@ -37,7 +37,7 @@ function webGLStart () {
       dt = 1,
       drops = 5,
       IOR = 1.3330, // Water
-      N = 5;
+      lastTime = 0;
 
   matStart.id();
 
@@ -304,11 +304,16 @@ function webGLStart () {
       };
 
       app.update = function () {
+        var now = +new Date(),
+            delta = now - lastTime;
+        lastTime = now;
+        delta /= 15;
+        var N = Math.ceil(dt * 5 * delta);
         for (var i = 0; i < N; i++) {
           surfaceBuffer.process({
             program: 'calc',
             uniforms: {
-              dt: dt / N,
+              dt: dt / N * 2,
               RESOLUTIONX: RESOLUTIONX,
               RESOLUTIONY: RESOLUTIONY,
               isElevation: true
@@ -317,7 +322,7 @@ function webGLStart () {
           surfaceBuffer.process({
             program: 'calc',
             uniforms: {
-              dt: dt / N,
+              dt: dt / N * 2,
               RESOLUTIONX: RESOLUTIONX,
               RESOLUTIONY: RESOLUTIONY,
               isElevation: false
@@ -381,6 +386,7 @@ function webGLStart () {
 
       gl.enable(gl.DEPTH_TEST);
       gl.depthFunc(gl.LEQUAL);
+      lastTime = start;
       setTimeout(function () {return app.animate.apply(app, arguments);}, 15);
     }
   });

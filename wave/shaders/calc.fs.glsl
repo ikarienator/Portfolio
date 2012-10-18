@@ -32,12 +32,12 @@ float vol(vec2 position) {
   if (position.x < 0. || position.y < 0. || position.x > 1. || position.y > 1.) {
     return 0.;
   }
-  return clamp(decode(texture2D(sampler2, position)), -2., 2.);
+  return decode(texture2D(sampler2, position));
 }
 
 void main(void) {
 
-  float viscous = 0.1;
+  float viscous = 0.0;
   float k = 2.;
   float regression = 0.0;
   float fade = 0.97;

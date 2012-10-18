@@ -154,7 +154,7 @@ function webGLStart () {
     },
 
     onError: function (e) {
-      alert(e);
+      console.log(e);
     },
 
     onLoad: function (app) {
