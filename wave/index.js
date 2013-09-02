@@ -19,8 +19,8 @@ function webGLStart () {
   resize();
   var
       cameraControl,
-      RESOLUTIONX = 256.,
-      RESOLUTIONY = 256.,
+      RESOLUTIONX = 128.,
+      RESOLUTIONY = 128.,
       SIZEX = 1,
       SIZEY = 1,
 
@@ -271,8 +271,8 @@ function webGLStart () {
           type: 'x,y',
           xlen: SIZEX,
           ylen: SIZEY,
-          nx: 128,
-          ny: 128,
+          nx: 32,
+          ny: 32,
           offset: 0,
           program: 'wave',
           textures: [surfaceBuffer.from[0] + '-texture', 'SKY0', 'SKY1', 'SKY2', 'SKY3', 'rocks'],
@@ -308,7 +308,7 @@ function webGLStart () {
             delta = now - lastTime;
         lastTime = now;
         delta /= 15;
-        var N = Math.ceil(dt * 5 * delta);
+        var N = 1; // Math.ceil(dt * 5 * delta);
         for (var i = 0; i < N; i++) {
           surfaceBuffer.process({
             program: 'calc',
@@ -332,7 +332,7 @@ function webGLStart () {
       };
 
       app.animate = function () {
-        app.update();
+//        app.update();
 
         var time = (+new Date() - start) / 1000;
 
@@ -341,16 +341,20 @@ function webGLStart () {
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         waterSurface.textures = [surfaceBuffer.from[0] + '-texture', 'SKY0', 'SKY1', 'SKY2', 'SKY3', 'rocks'];
         gl.viewport(0, 0, width, height);
-        this.scene.render('render');
+//        this.scene.render('render');
+        Image.postProcess({
+          program: 'calc',
+          toScreen: true
+        });
         if (lastDrop < time - 300) {
           lastDrop = time - 300;
         }
-        if (dt > 0 && drops > 0) {
-          while (time > lastDrop + 1 / drops / dt) {
-            app.drop([(Math.random() - 0.5) * SIZEX, (Math.random() - 0.5) * SIZEY], 0.3);
-            lastDrop += 1 / drops / dt;
-          }
-        }
+//        if (dt > 0 && drops > 0) {
+//          while (time > lastDrop + 1 / drops / dt) {
+//            app.drop([(Math.random() - 0.5) * SIZEX, (Math.random() - 0.5) * SIZEY], 0.3);
+//            lastDrop += 1 / drops / dt;
+//          }
+//        }
         setTimeout(function () {return app.animate.apply(app, arguments);}, 15);
       };
 

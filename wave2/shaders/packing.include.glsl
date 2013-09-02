@@ -25,30 +25,3 @@ vec4 f2b(float f) {
                 b / 256 / 256 + (expo - expo / 2 * 2) * 128,
                 expo / 2 + posbit) / 255.0;
 }
-
-float decode(vec4 vec) {
-  return clamp(b2f(vec), -2., 2.);
-}
-
-vec4 encode(float number) {
-  return f2b(number);
-}
-
-float texture2DBilinearDecoded(sampler2D tex, vec2 coord) {
-  coord *= RESOLUTIONX;
-  vec2 fxy = fract(coord),
-    ixy = floor(coord) / RESOLUTIONX;
-  float px = 1. / RESOLUTIONX;
-  return mix( 
-    mix(
-      decode(texture2D(tex, ixy)),
-      decode(texture2D(tex, ixy + vec2(px, 0))),
-      fxy.x
-      ),
-    mix(
-      decode(texture2D(tex, ixy + vec2(0, px))),
-      decode(texture2D(tex, ixy + vec2(px, px))),
-      fxy.x
-      ),
-    fxy.y);
-}

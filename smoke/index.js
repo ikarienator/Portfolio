@@ -159,8 +159,8 @@ function webGLStart () {
 
     onLoad: function (app) {
 
-      var RESOLUTION = 32, SHADOW_RESO = 256, size = 3,
-          number = 65536 / size / size, platform = -1.5,
+      var RESOLUTION = 32, SHADOW_RESO = 256, size = 15,
+          number = 4096 / size / size, platform = -1.5,
           mult = 1, N = 1;// 3615
       var light = new PhiloGL.Vec3(.5, .75, 2.0);
       PhiloGL.unpack();
@@ -217,11 +217,11 @@ function webGLStart () {
           parameters: [
             {
               name: gl.TEXTURE_MAG_FILTER,
-              value: gl.LINEAR
+              value: gl.NEAREST
             },
             {
               name: gl.TEXTURE_MIN_FILTER,
-              value: gl.LINEAR
+              value: gl.NEAREST
             },
             {
               name: gl.TEXTURE_WRAP_S,
