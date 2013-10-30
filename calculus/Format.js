@@ -9,7 +9,6 @@
         'sh': '\\operatorname{sh}',
         'ch': '\\operatorname{ch}',
         'th': '\\operatorname{th}',
-        'sh': '\\operatorname{sh}',
         'sinc': '\\operatorname{sinc}',
         'sincD': '\\operatorname{sinc}\'',
         'log': '\\ln'
@@ -19,7 +18,7 @@
         if (ast[0] === '.+' || ast[0] === '.-') {
             if (ast[1][0] == '+' || ast[1][0] == '-') {
                 if (type == 'latex') {
-                    return '\\' + ast[0][1] + '(' + format(ast[1], type) + ')';
+                    return ast[0][1] + '(' + format(ast[1], type) + ')';
                 } else {
                     return ast[0][1] + '(' + format(ast[1], type) + ')';
                 }
@@ -60,9 +59,9 @@
         } else if (ast[0] == 'ident') {
             if (type == 'latex') {
                 if (ast[1] == 'PI') {
-                    return '\PI';
+                    return '\\PI';
                 } else if (ast[1] == 'E') {
-                    return '\E';
+                    return '\\E';
                 }
             }
             return ast[1];
