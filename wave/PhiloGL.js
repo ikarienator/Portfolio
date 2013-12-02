@@ -567,6 +567,8 @@ $.splat = (function() {
       if (opt.data && opt.data.type === gl.FLOAT) {
         // Enable floating-point texture.
         if (!gl.getExtension('OES_texture_float')) {
+//          gl.getExtension('OES_float_linear');
+//          gl.getExtension('OES_half_float_linear');
           throw 'OES_texture_float is not supported';
         }
       }
@@ -4517,7 +4519,7 @@ $.splat = (function() {
       this.render(opt);
 
       gl.bindTexture(texMemo.textureType, texture);
-      gl.generateMipmap(texMemo.textureType);
+      // gl.generateMipmap(texMemo.textureType);
       gl.bindTexture(texMemo.textureType, null);
     },
 

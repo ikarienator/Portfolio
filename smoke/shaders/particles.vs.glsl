@@ -27,7 +27,6 @@ void main(void) {
   vec3 shadowPosition = mix(lightPosition, position, ratio);
   vec4 shadowSamp = texture2D(sampler3, (shadowPosition.xy + 1.5) / 3.);
   
-//  vec3 vel = getAA(sampler1, position) + 1.;
   float life = samp.w;
   color = vec4(1, 1, 1.1, 1);
   color.xyz *= smoothstep(0.3, 0.9, life);

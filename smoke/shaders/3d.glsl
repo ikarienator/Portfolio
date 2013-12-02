@@ -29,6 +29,13 @@ vec3 getAA(sampler2D field, float x, float y, float z) {
   );
 }
 
+vec3 get(sampler2D field, vec3 position){
+  float x = position.x - 0.5 / FIELD_RESO;
+  float y = position.y - 0.5 / FIELD_RESO;
+  float z = position.z - 0.5 / FIELD_RESO;
+  return get(field, x, y, z);
+}
+
 vec3 getAA(sampler2D field, vec3 position){
   float x = position.x - 0.5 / FIELD_RESO;
   float y = position.y - 0.5 / FIELD_RESO;

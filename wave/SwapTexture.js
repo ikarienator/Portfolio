@@ -2,6 +2,7 @@ function SwapTexture(config, count) {
   count = count || 1;
   config = config || {};
   var me = this;
+  gl.supports_OES_texture_float = !!gl.getExtension('OES_texture_float');
   config = Utils.merge({
     width: 512,
     height: 512,
@@ -27,10 +28,10 @@ function SwapTexture(config, count) {
         }
       ],
       data: {
-        type: gl.UNSIGNED_BYTE
+        type: gl.supports_OES_texture_float ? gl.FLOAT : gl.UNSIGNED_BYTE
       }
     },
-    bindToRenderBuffer: true
+    bindToRenderBuffer: false
   }, config);
   if (config.bindToTexture.data) {
     var data = config.bindToTexture.data;

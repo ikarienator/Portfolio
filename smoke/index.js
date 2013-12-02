@@ -1,8 +1,9 @@
 PhiloGL.unpack();
 window.addEventListener('DOMContentLoaded', webGLStart, false);
+var devicePixelRatio = 1;
 function webGLStart () {
-  var width = 1024 * window.devicePixelRatio,
-      height = 550 * window.devicePixelRatio,
+  var width = 1024 * devicePixelRatio,
+      height = 550 * devicePixelRatio,
       i, ln, gl,
       cameraControl;
 
@@ -159,9 +160,9 @@ function webGLStart () {
 
     onLoad: function (app) {
 
-      var RESOLUTION = 32, SHADOW_RESO = 256, size = 15,
-          number = 4096 / size / size, platform = -1.5,
-          mult = 1, N = 1;// 3615
+      var RESOLUTION = 32, SHADOW_RESO = 256, size = 3,
+          number = 65536 / size / size, platform = -1.5,
+          mult = 1, N = 1;
       var light = new PhiloGL.Vec3(.5, .75, 2.0);
       PhiloGL.unpack();
       gl = app.gl;
@@ -181,7 +182,7 @@ function webGLStart () {
         program: 'rand_source',
         uniforms: {
           FIELD_RESO: RESOLUTION,
-          time: +new Date() % 3600000 / 1000,
+          time: +Date.now() % 3600000 / 1000,
           mult: 1
         }
       });
